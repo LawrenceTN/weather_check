@@ -1,4 +1,5 @@
 import requests
+import webbrowser
 
 weather_api_key = "************************"
 api_ninja_key = "************************"
@@ -33,5 +34,14 @@ weather_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={
 response = requests.get(weather_url)
 weather_data = response.json()
 print(weather_data)
-# temperature = weather_data['main']['temp']
-# print(f"Current temperature: {temperature}")
+
+# Extract the weather temperature and feels like
+
+# If temperature & feels like < 70, search winter clothes
+# If temperature & feels like > 73, search hot clothes
+
+clothes = 'cloudy clothes'
+clothes = 'summer clothes'
+
+url = f'https://www.pinterest.com/search/pins/?q={clothes}'
+webbrowser.open(url)
