@@ -1,5 +1,6 @@
 import requests
 import webbrowser
+import pprint
 
 weather_api_key = "************************"
 api_ninja_key = "************************"
@@ -30,18 +31,22 @@ else:
 # Floats
 print(f"Lattitude = {lat}\nLongitude = {lon}\n") 
 
-weather_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={weather_api_key}&units=imperial"
+weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={weather_api_key}&units=imperial"
 response = requests.get(weather_url)
 weather_data = response.json()
-print(weather_data)
+# pprint.pprint(weather_data)
 
 # Extract the weather temperature and feels like
+print(f"Feels like: {weather_data['main']['feels_like']}F")
+print(f"Temp is: {weather_data['main']['temp']}F")
+print(f"Looks like: {weather_data['weather'][0]['description']}")
+
 
 # If temperature & feels like < 70, search winter clothes
 # If temperature & feels like > 73, search hot clothes
 
-clothes = 'cloudy clothes'
-clothes = 'summer clothes'
+# clothes = 'cloudy clothes'
+# clothes = 'summer clothes'
 
-url = f'https://www.pinterest.com/search/pins/?q={clothes}'
-webbrowser.open(url)
+# url = f'https://www.pinterest.com/search/pins/?q={clothes}'
+# webbrowser.open(url)
