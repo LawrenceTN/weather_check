@@ -1,9 +1,28 @@
 import requests
 import webbrowser
 import pprint
+from bs4 import BeautifulSoup
 
 weather_api_key = "************************"
 api_ninja_key = "************************"
+
+def open_pinterest(clothes):
+    url = f'https://www.pinterest.com/search/pins/?q={clothes}'
+    response = requests.get(url)
+
+    if response.status_code == 200: # If response is valid
+        soup = BeautifulSoup(response.content, 'html.parser')
+        search_bar = soup.find('input', {'class': 'typeaheadInput'})
+
+        if search_bar:
+            search_bar['value'] = clothes
+            search_url = f'https://www.pinterest.com/search/pins/?q={search_bar["value"]}'
+            webbrowser.open(search_url)
+        else:
+            print("Search bar isn't found.")
+    else:
+        print("This page is not online")
+    return
 
 # Function to check if user input is a zip code (num) or city (string)
 def is_number(user_input):
@@ -37,16 +56,19 @@ weather_data = response.json()
 # pprint.pprint(weather_data)
 
 # Extract the weather temperature and feels like
-print(f"Feels like: {weather_data['main']['feels_like']}F")
-print(f"Temp is: {weather_data['main']['temp']}F")
-print(f"Looks like: {weather_data['weather'][0]['description']}")
+feels_like = weather_data['main']['feels_like']
+temp = weather_data['main']['temp']
+description = weather_data['weather'][0]['description']
 
+print(f"Feels like: {feels_like}F")
+print(f"Temp is: {temp}")
+print(f"Looks like: {description}")
 
-# If temperature & feels like < 70, search winter clothes
-# If temperature & feels like > 73, search hot clothes
+if feels_like <= 73:
+    clothes = 'cloudy clothes'
+else:
+    clothes = 'summer clothes'
 
-# clothes = 'cloudy clothes'
-# clothes = 'summer clothes'
+print(f"Let's look for {clothes}")
 
-# url = f'https://www.pinterest.com/search/pins/?q={clothes}'
-# webbrowser.open(url)
+open_pinterest(clothes)
