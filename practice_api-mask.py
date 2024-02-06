@@ -1,28 +1,22 @@
 import requests
 import webbrowser
-import pprint
-from bs4 import BeautifulSoup
 
 weather_api_key = "************************"
 api_ninja_key = "************************"
 
 def open_pinterest(clothes):
-    url = f'https://www.pinterest.com/search/pins/?q={clothes}'
+    # url = f'https://www.pinterest.com/search/pins/?q={clothes}'
+    url = 'https://www.pinterest.com/'
     response = requests.get(url)
 
     if response.status_code == 200: # If response is valid
-        soup = BeautifulSoup(response.content, 'html.parser')
-        search_bar = soup.find('input', {'class': 'typeaheadInput'})
-
-        if search_bar:
-            search_bar['value'] = clothes
-            search_url = f'https://www.pinterest.com/search/pins/?q={search_bar["value"]}'
+            search_url = f'https://www.pinterest.com/search/pins/?q={clothes}&rs=typed'
             webbrowser.open(search_url)
-        else:
-            print("Search bar isn't found.")
     else:
-        print("This page is not online")
-    return
+        print("Webpage is offline")
+
+weather_api_key = "24e0f9e372c43b516cee8425f16e1a5f"
+api_ninja_key="JI3VhzE2vf16CpX00i4Vkg==GQksloLe70bXhVXn"
 
 # Function to check if user input is a zip code (num) or city (string)
 def is_number(user_input):
@@ -53,7 +47,6 @@ print(f"Lattitude = {lat}\nLongitude = {lon}\n")
 weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={weather_api_key}&units=imperial"
 response = requests.get(weather_url)
 weather_data = response.json()
-# pprint.pprint(weather_data)
 
 # Extract the weather temperature and feels like
 feels_like = weather_data['main']['feels_like']
@@ -65,9 +58,9 @@ print(f"Temp is: {temp}")
 print(f"Looks like: {description}")
 
 if feels_like <= 73:
-    clothes = 'cloudy clothes'
+    clothes = 'fall street wear 2024 men'
 else:
-    clothes = 'summer clothes'
+    clothes = 'summer street wear 2024 men'
 
 print(f"Let's look for {clothes}")
 
